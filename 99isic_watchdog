@@ -1,0 +1,8 @@
+#!/system/bin/sh
+# SuperSU su.d: inicia o watchdog do iSIC Lite no boot.
+(
+    while [ "$(getprop sys.boot_completed)" != "1" ]; do sleep 5; done
+    sleep 20
+    settings put global stay_on_while_plugged_in 7
+    busybox setsid /system/bin/sh /data/local/isic_watchdog.sh < /dev/null > /dev/null 2>&1 &
+) &
